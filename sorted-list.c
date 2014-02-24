@@ -1,14 +1,17 @@
 #include <string.h>
-#include "sorted-list.h"
 #include <stdlib.h>
+#include "sorted-list.h"
 
 /*Creates a Linked List Node
  *
  */
 
-Node createNode(void *val){
+Node createNode(void *val)
+{
     Node llNode = malloc(sizeof(struct Node));
     llNode->data = val;
+    llNode->reMoved = 0;
+    llNode->refCount = 0;
     llNode->next = NULL;
     return llNode;
 
@@ -25,14 +28,43 @@ Node createNode(void *val){
  * You need to fill in this function as part of your implementation.
  */
 
-SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df){
-    SortedListPtr s1;
-    s1->CompareFuncT = cf;
-    s1->DestructFunct = df;
+SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df)
+{
+    SortedListPtr sl = malloc(sizeof(struct SortedListPtr));
+    sl->CompareFuncT = cf;
+    sl->DestructFunct = df;
+}
 
+/*
+ * SLDestroy destroys a list, freeing all dynamically allocated memory.
+ *
+ * You need to fill in this function as part of your implementation.
+ */
+
+void SLDestroy(SortedListPtr list)
+{
+}
+
+int SLInsert(SortedListPtr list, void *newObj)
+{
+}
+
+int SLRemove(SortedListPtr list, void *newObj)
+{
+}
+
+SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
+{
+}
+
+void SLDestroyIterator(SortedListIteratorPtr iter)
+{
 }
 
 
+void *SLNextItem(SortedListIteratorPtr iter)
+{
+}
 
 
 
