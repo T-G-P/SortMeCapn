@@ -5,14 +5,23 @@
  */
 
 #include <stdlib.h>
+/*
+ * Linked List Node type
+ */
+struct Node_{
+    void *data;
+    Node *next;
+}
+typedef struct Node_ Node;
+
 
 /*
  * Sorted list type.  You need to fill in the type as part of your implementation.
  */
 struct SortedList
 {
-    CompareFuncT *cf;
-    DestructFunct *df;
+    CompareFuncT cf;
+    DestructFunct df;
 };
 typedef struct SortedList* SortedListPtr;
 
@@ -23,8 +32,7 @@ typedef struct SortedList* SortedListPtr;
  */
 struct SortedListIterator
 {
-
-
+    SortedListPtr *list;
 };
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
@@ -59,6 +67,7 @@ typedef void (*DestructFuncT)( void * );
  */
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df);
+
 
 /*
  * SLDestroy destroys a list, freeing all dynamically allocated memory.
@@ -141,5 +150,11 @@ void SLDestroyIterator(SortedListIteratorPtr iter);
  */
 
 void *SLNextItem(SortedListIteratorPtr iter);
+
+/*Creates a Linked List Node
+ *
+ */
+
+Node createNode(void *data);
 
 #endif
