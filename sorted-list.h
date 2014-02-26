@@ -10,7 +10,10 @@
  */
 struct Node_{
     void *data;
-    Node *next;
+    struct Node_ *next;
+    int reMoved;
+    int refCount;
+
 }
 typedef struct Node_ Node;
 
@@ -22,6 +25,7 @@ struct SortedList
 {
     CompareFuncT cf;
     DestructFunct df;
+    Node *head;
 };
 typedef struct SortedList* SortedListPtr;
 
@@ -32,7 +36,8 @@ typedef struct SortedList* SortedListPtr;
  */
 struct SortedListIterator
 {
-    SortedListPtr *list;
+    SortedListPtr list;
+    Node *currNode;
 };
 typedef struct SortedListIterator* SortedListIteratorPtr;
 
@@ -155,6 +160,6 @@ void *SLNextItem(SortedListIteratorPtr iter);
  *
  */
 
-Node createNode(void *data);
+Node *createNode(void *data);
 
 #endif
