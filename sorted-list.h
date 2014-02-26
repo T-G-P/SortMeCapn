@@ -8,13 +8,14 @@
 /*
  * Linked List Node type
  */
-struct Node_{
+struct Node_
+{
     void *data;
     struct Node_ *next;
     int reMoved;
     int refCount;
 
-}
+};
 typedef struct Node_ Node;
 
 
@@ -56,7 +57,7 @@ typedef struct SortedListIterator* SortedListIteratorPtr;
  * function when a new sorted list is created.
  */
 
-typedef int (*CompareFuncT)( void *, void * )
+typedef int (*CompareFuncT)( void *, void * );
 typedef void (*DestructFuncT)( void * );
 
 /*
@@ -72,15 +73,13 @@ typedef void (*DestructFuncT)( void * );
  */
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df);
-
-
+M
 /*
  * SLDestroy destroys a list, freeing all dynamically allocated memory.
  *
  * You need to fill in this function as part of your implementation.
  */
 void SLDestroy(SortedListPtr list);
-
 
 /*
  * SLInsert inserts a given object into a sorted list, maintaining sorted
@@ -94,7 +93,6 @@ void SLDestroy(SortedListPtr list);
  */
 
 int SLInsert(SortedListPtr list, void *newObj);
-
 
 /*
  * SLRemove removes a given object from a sorted list.  Sorted ordering

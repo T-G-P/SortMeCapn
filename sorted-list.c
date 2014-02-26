@@ -64,20 +64,32 @@ int SLInsert(SortedListPtr list, void *newObj)
         list->head->refCount++;
         return 1;
     }
-    while(list->head != NULL){
-        if(list->head->data = newObj){
+    Node *ptr = list->head;
+    while(ptr != NULL){
+        if(list->cf(ptr->data, newObj) == 0){
             return 1;
         }
+        else if(list->cf(ptr->data, newObj) < 0){
+            Node *newNode = createNode(newObj);
+            for(Node *ptr2 = list->head; ptr2!=NULL; ptr2=ptr2->next){
+                if(list->cf(newObj, ptr2->data) >= 1){
+                    ptr2->next = newNode;
+                }
 
+            }
+            newNode->next = ptr;
+            newNode->refCount++;
 
-
-
+        }
+        else if(list->cf(ptr->data, newObj) >= 1){
+            Node *newNode = createNode(newObj);
+            Node *temp = ptr->next;
+            ptr->next = newNode;
+            newNode->next = temp;
+            newNode->refCount++;
+        }
 
     }
-
-
-
-
 }
 
 int SLRemove(SortedListPtr list, void *newObj)
