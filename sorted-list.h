@@ -22,11 +22,15 @@ typedef struct Node_ Node;
 /*
  * Sorted list type.  You need to fill in the type as part of your implementation.
  */
+
+typedef int (*CompareFuncT)( void *, void * );
+typedef void (*DestructFuncT)( void * );
+
 struct SortedList
 {
     CompareFuncT cf;
-    DestructFunct df;
-    Node *head;
+    DestructFuncT df;
+    struct Node_ *head;
 };
 typedef struct SortedList* SortedListPtr;
 
@@ -57,8 +61,6 @@ typedef struct SortedListIterator* SortedListIteratorPtr;
  * function when a new sorted list is created.
  */
 
-typedef int (*CompareFuncT)( void *, void * );
-typedef void (*DestructFuncT)( void * );
 
 /*
  * SLCreate creates a new, empty sorted list.  The caller must provide
@@ -73,7 +75,7 @@ typedef void (*DestructFuncT)( void * );
  */
 
 SortedListPtr SLCreate(CompareFuncT cf, DestructFuncT df);
-M
+
 /*
  * SLDestroy destroys a list, freeing all dynamically allocated memory.
  *

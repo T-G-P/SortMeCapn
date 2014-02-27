@@ -48,9 +48,9 @@ void SLDestroy(SortedListPtr list)
     /*Destroy all Nodes, data. Free on the nodes, and df(data)*/
     Node *ptr = NULL;
     while(!(list->head == NULL)){
-        list->df(head->data);
+        list->df(list->head->data);
         ptr = list->head;
-        head = head->next;
+        list->head = list->head->next;
         free(ptr);
     }
     free(list);
@@ -67,11 +67,12 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *ptr = list->head;
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
-            return 1;
+            return 0;
         }
         else if(list->cf(ptr->data, newObj) < 0){
             Node *newNode = createNode(newObj);
-            for(Node *ptr2 = list->head; ptr2!=NULL; ptr2=ptr2->next){
+            Node *ptr2;
+            for(ptr2 = list->head; ptr2!=NULL; ptr2=ptr2->next){
                 if(list->cf(newObj, ptr2->data) >= 1){
                     ptr2->next = newNode;
                 }
@@ -88,6 +89,7 @@ int SLInsert(SortedListPtr list, void *newObj)
             newNode->next = temp;
             newNode->refCount++;
         }
+        ptr = ptr->next;
 
     }
 }
