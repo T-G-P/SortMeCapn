@@ -58,29 +58,28 @@ void SLDestroy(SortedListPtr list)
 }
 int SLInsert(SortedListPtr list, void *newObj)
 {
+    Node *ptr = list->head;
+    Node *prev= NULL;
+
     if(list->head == NULL){
         Node *newNode = createNode(newObj);
         list->head = newNode;
-        list->head->refCount++;
-        return 1;
+        newNode->refCount++;
     }
-    Node *ptr = list->head;
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
             return 0;
         }
         else if(list->cf(ptr->data, newObj) < 0){
             Node *newNode = createNode(newObj);
-            Node *ptr2;
-            for(ptr2 = list->head; ptr2!=NULL; ptr2=ptr2->next){
-                if(list->cf(newObj, ptr2->data) >= 1){
-                    ptr2->next = newNode;
-                }
-
+            if(prev == NULL){
+               Node *temp = ptr;
+               list->head = newNode;
+               newNode->next = ptr;
             }
+            prev->next = newNode;
             newNode->next = ptr;
             newNode->refCount++;
-
         }
         else if(list->cf(ptr->data, newObj) >= 1){
             Node *newNode = createNode(newObj);
@@ -89,9 +88,14 @@ int SLInsert(SortedListPtr list, void *newObj)
             newNode->next = temp;
             newNode->refCount++;
         }
+        else{
+            ;
+        }
+        prev = ptr;
         ptr = ptr->next;
 
     }
+    return 1;
 }
 
 int SLRemove(SortedListPtr list, void *newObj)

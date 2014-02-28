@@ -3,6 +3,8 @@
  */
 
 #include	<string.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include	"sorted-list.h"
 
 int compareInts(void *p1, void *p2)
@@ -45,4 +47,15 @@ void destroyBasicTypeNoAlloc(void *p) {
 
 int main()
 {
+    SortedListPtr newList = SLCreate(compareStrings,destroyBasicTypeNoAlloc);
+    char * str1 = "one";
+    char * str2 = "two";
+    SLInsert(newList, str1);
+    SLInsert(newList, str2);
+    Node *ptr;
+    for(ptr = newList->head; ptr!=NULL; ptr=ptr->next){
+        printf("%s\n",ptr->data);
+    }
+
+
 }
