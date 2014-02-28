@@ -50,8 +50,12 @@ int main()
     SortedListPtr newList = SLCreate(compareStrings,destroyBasicTypeNoAlloc);
     char * str1 = "one";
     char * str2 = "two";
+    char * str3 = "three";
+    char * str4 = "zero";
     SLInsert(newList, str1);
     SLInsert(newList, str2);
+    SLInsert(newList, str3);
+    SLInsert(newList, str4);
     Node *ptr;
     for(ptr = newList->head; ptr!=NULL; ptr=ptr->next){
         printf("%s\n",ptr->data);

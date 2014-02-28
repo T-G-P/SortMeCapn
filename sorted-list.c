@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "sorted-list.h"
 
 /*Creates a Linked List Node
@@ -62,9 +63,9 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *prev= NULL;
 
     if(list->head == NULL){
+        printf("Inserting\n");
         Node *newNode = createNode(newObj);
         list->head = newNode;
-        newNode->refCount++;
     }
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
@@ -72,17 +73,22 @@ int SLInsert(SortedListPtr list, void *newObj)
         }
         else if(list->cf(ptr->data, newObj) < 0){
             Node *newNode = createNode(newObj);
-            if(prev == NULL){
-               Node *temp = ptr;
-               list->head = newNode;
-               newNode->next = ptr;
+            printf("Inserting node\n");
+            if(prev == NULL){       //the new object is bigger than the head
+                Node *temp = ptr;
+                list->head = newNode;
+                newNode->next = temp;
             }
-            prev->next = newNode;
-            newNode->next = ptr;
-            newNode->refCount++;
+            else{
+                prev->next = newNode;
+                newNode->next = ptr;
+                newNode->refCount++;
+            }
+
         }
         else if(list->cf(ptr->data, newObj) >= 1){
             Node *newNode = createNode(newObj);
+            printf("Inserting node\n");
             Node *temp = ptr->next;
             ptr->next = newNode;
             newNode->next = temp;
@@ -93,7 +99,6 @@ int SLInsert(SortedListPtr list, void *newObj)
         }
         prev = ptr;
         ptr = ptr->next;
-
     }
     return 1;
 }
