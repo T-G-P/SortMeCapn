@@ -79,7 +79,10 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *prev= NULL;
 
     while(ptr != NULL){
-        if(list->cf(ptr->data, newObj) <= 0){ //if newObj is bigger, insert
+        if(list->cf(ptr->data, newObj) == 0){   //no duplicate insertion
+            return 0;
+        }
+        else if(list->cf(ptr->data, newObj) < 0){ //if newObj is bigger, insert
             Node *newNode = createNode(newObj);
             if(prev == NULL){       //the new object is bigger than the head
                 Node *temp = ptr;       //store head

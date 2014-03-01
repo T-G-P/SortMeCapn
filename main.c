@@ -48,12 +48,25 @@ void destroyBasicTypeNoAlloc(void *p) {
 int main()
 {
     SortedListPtr newList = SLCreate(compareStrings,destroyBasicTypeNoAlloc);
+    SortedListPtr intList = SLCreate(compareInts, destroyBasicTypeNoAlloc);
     char * str1 = "two";
     char * str2 = "three";
     char * str3 = "four";
     char * str6 = "four";
     char * str4 = "one";
     char * str5 = "seven";
+    int x = 5;
+    int y = 7;
+    int z = 12;
+
+    //inserting some ints into int list
+    SLInsert(intList, &x);
+    SLInsert(intList, &y);
+    SLInsert(intList, &z);
+
+    //inserting and removing some strings into string list
+    SLInsert(newList, str1);
+    SLInsert(newList, str1);
     SLInsert(newList, str1);
     SLInsert(newList, str2);
     SLInsert(newList, str3);
@@ -61,13 +74,21 @@ int main()
     SLRemove(newList, str4);
     SLInsert(newList, str5);
     SLInsert(newList, str6);
+
+    //Creating Iterators
     SortedListIteratorPtr SLI = SLCreateIterator(newList);
+    SortedListIteratorPtr SlInt = SLCreateIterator(intList);
+
+    //Go through string list and print
     printf("%s\n",SLNextItem(SLI));
     printf("%s\n",SLNextItem(SLI));
     printf("%s\n",SLNextItem(SLI));
     printf("%s\n",SLNextItem(SLI));
-    printf("%s\n",SLNextItem(SLI));
-    printf("%s\n",SLNextItem(SLI));
+
+    //go through int list and print
+    printf("%d\n",SLNextItem(SlInt));
+    printf("%d\n",SLNextItem(SlInt));
+    printf("%d\n",SLNextItem(SlInt));
 
 
     /*Node *ptr;
