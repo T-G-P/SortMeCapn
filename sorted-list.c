@@ -127,7 +127,7 @@ int SLRemove(SortedListPtr list, void *newObj)
                 list->head = list->head->next;
                 list->head->refCount++;
                 ptr->refCount--;
-                ptr->reMoved = 1;
+                //ptr->reMoved = 1;
                 if(ptr->refCount <= 0){
                     list->df(ptr->data);
                     if(ptr->next !=NULL){
@@ -173,7 +173,7 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
 void SLDestroyIterator(SortedListIteratorPtr iter)
 {
     //decrement currNode count, then free iterator.
-    iter->currNode--;
+    iter->currNode->refCount--;
     free(iter);
 }
 
