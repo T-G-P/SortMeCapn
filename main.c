@@ -48,14 +48,15 @@ void destroyBasicTypeNoAlloc(void *p) {
 int main()
 {
     SortedListPtr newList = SLCreate(compareStrings,destroyBasicTypeNoAlloc);
-    char * str1 = "one";
-    char * str2 = "two";
-    char * str3 = "three";
-    char * str4 = "zero";
+    char * str1 = "two";
+    char * str2 = "three";
+    char * str3 = "four";
+    char * str4 = "one";
     SLInsert(newList, str1);
     SLInsert(newList, str2);
     SLInsert(newList, str3);
     SLInsert(newList, str4);
+    SLRemove(newList, str4);
     Node *ptr;
     for(ptr = newList->head; ptr!=NULL; ptr=ptr->next){
         printf("%s\n",ptr->data);

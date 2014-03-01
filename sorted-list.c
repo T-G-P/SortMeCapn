@@ -70,7 +70,6 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *newNode = createNode(newObj);
 
     if(list->head == NULL || list->cf(list->head->data, newObj) < 0){
-        printf("Inserting\n");
         newNode->next = list->head;
         list->head = newNode;
         return 1;
@@ -85,7 +84,6 @@ int SLInsert(SortedListPtr list, void *newObj)
         }
         else if(list->cf(ptr->data, newObj) < 0){ //if newObj is bigger, insert
             Node *newNode = createNode(newObj);
-            printf("Inserting node\n");
             if(prev == NULL){       //the new object is bigger than the head
                 Node *temp = ptr;       //store head
                 list->head = newNode;   //change head
@@ -128,10 +126,38 @@ int SLRemove(SortedListPtr list, void *newObj)
     Node *prev = NULL;
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
-            Node *tmp = ptr;
-
+            if(prev == NULL){
+                list->head = list->head->next;
+                list->head->refCount++;
+                ptr->refCount--;
+                ptr->reMoved = 1;
+                if(ptr->refCount <= 0){
+                    list->df(ptr->data);
+                    if(ptr->next !=NULL){
+                        ptr->next->refCount--;
+                    }
+                    free(ptr);
+                    return 1;
+                }
+            }
+            else{
+                prev->next = ptr->next;
+                ptr->next->refCount++;
+                ptr->refCount--;
+                if(ptr->refCount <=0){
+                    list->df(ptr->data);
+                    if(ptr->next != NULL){
+                        ptr->next->refCount--;
+                    }
+                    free(ptr);
+                    return 1;
+                }
+            }
         }
-
+        prev = ptr;
+        ptr = ptr->next;
+    }
+    return 0;
 }
 
 SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
