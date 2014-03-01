@@ -70,8 +70,8 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *newNode = createNode(newObj);
 
     if(list->head == NULL || list->cf(list->head->data, newObj) < 0){
-        newNode->next = list->head;
-        list->head = newNode;
+        newNode->next = list->head;     //Make the new node point to the current head
+        list->head = newNode;           //Make the head the new node
         return 1;
     }
 
@@ -79,10 +79,7 @@ int SLInsert(SortedListPtr list, void *newObj)
     Node *prev= NULL;
 
     while(ptr != NULL){
-        if(list->cf(ptr->data, newObj) == 0){ //no duplicates
-            return 0;
-        }
-        else if(list->cf(ptr->data, newObj) < 0){ //if newObj is bigger, insert
+        if(list->cf(ptr->data, newObj) <= 0){ //if newObj is bigger, insert
             Node *newNode = createNode(newObj);
             if(prev == NULL){       //the new object is bigger than the head
                 Node *temp = ptr;       //store head
@@ -176,12 +173,17 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
 void SLDestroyIterator(SortedListIteratorPtr iter)
 {
     //decrement currNode count, then free iterator.
+    iter->currNode--;
+    free(iter);
 }
 
 
 void *SLNextItem(SortedListIteratorPtr iter)
 {
     //Check if item has been removed. If removed, move iterator to next node.
+    Node *ptr = iter->currNode;
+
+
 
 }
 
