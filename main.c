@@ -51,16 +51,28 @@ int main()
     char * str1 = "two";
     char * str2 = "three";
     char * str3 = "four";
+    char * str6 = "four";
     char * str4 = "one";
+    char * str5 = "seven";
     SLInsert(newList, str1);
     SLInsert(newList, str2);
     SLInsert(newList, str3);
     SLInsert(newList, str4);
     SLRemove(newList, str4);
-    Node *ptr;
+    SLInsert(newList, str5);
+    SLInsert(newList, str6);
+    SortedListIteratorPtr SLI = SLCreateIterator(newList);
+    printf("%s\n",SLNextItem(SLI));
+    printf("%s\n",SLNextItem(SLI));
+    printf("%s\n",SLNextItem(SLI));
+    printf("%s\n",SLNextItem(SLI));
+    printf("%s\n",SLNextItem(SLI));
+    printf("%s\n",SLNextItem(SLI));
+
+
+    /*Node *ptr;
     for(ptr = newList->head; ptr!=NULL; ptr=ptr->next){
         printf("%s\n",ptr->data);
-    }
-
+    }*/
 
 }
