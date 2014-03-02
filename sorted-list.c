@@ -208,8 +208,11 @@ void *SLNextItem(SortedListIteratorPtr iter)
         Node *temp = iter->currNode->next;
         ret = iter->currNode->data;
         iter->currNode->refCount--;
-        if(iter->currNode->refCount == 0){
+        if(iter->currNode->refCount <= 0){
             iter->list->df(iter->currNode->data);
+            if(temp != NULL){
+                temp->refCount--;
+            }
             free(iter->currNode);
         }
         iter->currNode = temp;
