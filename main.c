@@ -74,6 +74,7 @@ int main()
     SLRemove(newList, str4);
     SLInsert(newList, str5);
     SLInsert(newList, str6);
+    SLRemove(newList, str2);
 
     //Creating Iterators
     SortedListIteratorPtr SLI = SLCreateIterator(newList);

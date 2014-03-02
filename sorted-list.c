@@ -126,24 +126,26 @@ int SLRemove(SortedListPtr list, void *newObj)
     Node *prev = NULL;
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
-            if(prev == NULL){
+            if(prev == NULL){       //deleting the head
                 list->head = list->head->next;
-                list->head->refCount++;
-                ptr->refCount--;
-                ptr->reMoved = 1;
-                if(ptr->refCount <= 0){
+                list->head->refCount++;     //SortedListPtr is pointing to this node now
+                ptr->refCount--;    //ptr no longer has the sorted list pointing to it
+                //ptr->reMoved = 1;
+                if(ptr->refCount <= 0){     //if there is nothing pointing to this node
                     list->df(ptr->data);
-                    if(ptr->next !=NULL){
-                        ptr->next->refCount--;
+                    if(ptr->next !=NULL){   //if the ptr has a next
+                        ptr->next->refCount--;  //decrement the reference count
                     }
                     free(ptr);
                     return 1;
                 }
             }
             else{
-                prev->next = ptr->next;
-                ptr->next->refCount++;
-                ptr->refCount--;
+                prev->next = ptr->next;     //not deleting the head
+                if(ptr->next != NULL){      //the node has a next and we increment the ref count for its next
+                    ptr->next->refCount++;
+                    ptr->refCount--;
+                }
                 if(ptr->refCount <=0){
                     list->df(ptr->data);
                     if(ptr->next != NULL){
@@ -169,8 +171,6 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
     }
     return slIterator;
 
-
-
 }
 
 void SLDestroyIterator(SortedListIteratorPtr iter)
@@ -181,7 +181,7 @@ void SLDestroyIterator(SortedListIteratorPtr iter)
 }
 
 
-/*void *SLNextItem(SortedListIteratorPtr iter)
+void *SLNextItem(SortedListIteratorPtr iter)
 {
     //Check if item has been removed. If removed, move iterator to next node.
     //Ignoring above comment at the moment...will come back to it later
@@ -195,9 +195,9 @@ void SLDestroyIterator(SortedListIteratorPtr iter)
     else{
         return NULL;
     }
-}*/
+}
 
-
+/*
 void *SLNextItem(SortedListIteratorPtr iter)
 {
     if(!iter || !iter->currNode) {   //if iterator or iterators head are null return null
@@ -222,4 +222,4 @@ void *SLNextItem(SortedListIteratorPtr iter)
     }
     while(iter->currNode!=NULL && iter->currNode->reMoved == 0);
     return ret;
-}
+}*/
