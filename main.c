@@ -44,7 +44,6 @@ void destroyBasicTypeNoAlloc(void *p) {
 	return;
 }
 
-
 int main()
 {
     SortedListPtr newList = SLCreate(compareStrings,destroyBasicTypeNoAlloc);
@@ -66,6 +65,8 @@ int main()
 
     //inserting and removing some strings into string list
     SLInsert(newList, str1);
+    SLRemove(newList, str4);
+    //SLRemove(newList, str1);
     SLInsert(newList, str1);
     SLInsert(newList, str1);
     SLInsert(newList, str2);
@@ -75,6 +76,7 @@ int main()
     SLInsert(newList, str5);
     SLInsert(newList, str6);
     SLRemove(newList, str2);
+    SLInsert(newList, str4);
 
     //Creating Iterators
     SortedListIteratorPtr SLI = SLCreateIterator(newList);

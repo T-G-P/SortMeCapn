@@ -180,7 +180,6 @@ void SLDestroyIterator(SortedListIteratorPtr iter)
     free(iter);
 }
 
-
 void *SLNextItem(SortedListIteratorPtr iter)
 {
     //Check if item has been removed. If removed, move iterator to next node.
@@ -196,6 +195,7 @@ void *SLNextItem(SortedListIteratorPtr iter)
         return NULL;
     }
 }
+
 
 /*
 void *SLNextItem(SortedListIteratorPtr iter)
@@ -222,4 +222,5 @@ void *SLNextItem(SortedListIteratorPtr iter)
     }
     while(iter->currNode!=NULL && iter->currNode->reMoved == 0);
     return ret;
-}*/
+}
+*/
