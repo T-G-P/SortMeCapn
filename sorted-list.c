@@ -108,29 +108,33 @@ int SLRemove(SortedListPtr list, void *newObj)
     if(!list || list->head == NULL || !newObj){
         return 0;
     }
-    if(list->cf(list->head->data, newObj) == 0){
-        Node *tmp = list->head;
-        list->head = list->head->next;
-        list->head->refCount++;     //Sortedlistptr is pointing to this node now
-        tmp->refCount--;            //Sortedlistptr no longer pointing to this node
-        if(tmp->refCount <= 0){    //if the node has nothing pointing to it (no iterator)
-            list->df(tmp->data);    //Destroys the data of the node
-            if(tmp->next != NULL){      //if temp has a next, decrement its refCount
-                tmp->next->refCount--;
-            }
-            free(tmp);
-            return 1;
-        }
-    }
+    /*
+       if(list->cf(list->head->data, newObj) == 0){
+       Node *tmp = list->head;
+       list->head = list->head->next;
+       list->head->refCount++;     //Sortedlistptr is pointing to this node now
+       tmp->refCount--;            //Sortedlistptr no longer pointing to this node
+       if(tmp->refCount <= 0){    //if the node has nothing pointing to it (no iterator)
+       list->df(tmp->data);    //Destroys the data of the node
+       if(tmp->next != NULL){      //if temp has a next, decrement its refCount
+       tmp->next->refCount--;
+       }
+       free(tmp);
+       return 1;
+       }
+       }
+       */
     Node *ptr = list->head;
     Node *prev = NULL;
     while(ptr != NULL){
         if(list->cf(ptr->data, newObj) == 0){
             if(prev == NULL){       //deleting the head
                 list->head = list->head->next;
-                list->head->refCount++;     //SortedListPtr is pointing to this node now
+                if(list->head){
+                    list->head->refCount++;     //SortedListPtr is pointing to this node now
+                }
                 ptr->refCount--;    //ptr no longer has the sorted list pointing to it
-                //ptr->reMoved = 1;
+                ptr->reMoved = 1;
                 if(ptr->refCount <= 0){     //if there is nothing pointing to this node
                     list->df(ptr->data);
                     if(ptr->next !=NULL){   //if the ptr has a next
@@ -145,6 +149,7 @@ int SLRemove(SortedListPtr list, void *newObj)
                 if(ptr->next != NULL){      //the node has a next and we increment the ref count for its next
                     ptr->next->refCount++;
                     ptr->refCount--;
+                    ptr->reMoved = 1;
                 }
                 if(ptr->refCount <=0){
                     list->df(ptr->data);
@@ -176,51 +181,38 @@ SortedListIteratorPtr SLCreateIterator(SortedListPtr list)
 void SLDestroyIterator(SortedListIteratorPtr iter)
 {
     //decrement currNode count, then free iterator.
-    iter->currNode->refCount--;
+    if(iter->currNode != NULL){
+        iter->currNode->refCount--;
+    }
     free(iter);
+
 }
 
 void *SLNextItem(SortedListIteratorPtr iter)
 {
     //Check if item has been removed. If removed, move iterator to next node.
     //Ignoring above comment at the moment...will come back to it later
+    if(iter->currNode == NULL || iter == NULL){
+        return NULL;
+    }
 
-    if(iter->currNode != NULL){     //The iterator points to an actual node
+    while(iter->currNode != NULL && iter->currNode->reMoved ==1){   //the iterator points to the node and it is removed
+        iter->currNode->refCount--;
+        /*if(iter->currNode->refCount <= 0){     //if there is nothing pointing to this node
+          list->df(iter->currNode->data);
+          if(iter->currNode->next != NULL){
+          iter->currNode->next->refCount--;
+          }
+          free(iter->currNode);
+          }*/
+        iter->currNode = iter->currNode->next;
+        iter->currNode->refCount++;
+    }
+    if(iter->currNode != NULL && iter->currNode->reMoved ==0){     //The iterator points to an actual node and it is not removed
         void * temp = iter->currNode->data;
         iter->currNode->refCount--;     //Decrements the refCount
         iter->currNode = iter->currNode->next;  //moves iterator to the next node.
         return temp;
     }
-    else{
-        return NULL;
-    }
+    return NULL;
 }
-
-
-/*
-void *SLNextItem(SortedListIteratorPtr iter)
-{
-    if(!iter || !iter->currNode) {   //if iterator or iterators head are null return null
-        return NULL;
-    }
-    void *ret;
-    do{
-        Node *temp = iter->currNode->next;
-        ret = iter->currNode->data;
-        iter->currNode->refCount--;
-        if(iter->currNode->refCount <= 0){
-            iter->list->df(iter->currNode->data);
-            if(temp != NULL){
-                temp->refCount--;
-            }
-            free(iter->currNode);
-        }
-        iter->currNode = temp;
-        if(iter->currNode != NULL) {
-            iter->currNode->refCount++;
-        }
-    }
-    while(iter->currNode!=NULL && iter->currNode->reMoved == 0);
-    return ret;
-}
-*/
