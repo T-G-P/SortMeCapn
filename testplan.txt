@@ -1,0 +1,172 @@
+Test Plan for the Sorted List
+by Tobias Perelstein
+
+First I tested the program by inserting a bunch of Strings and removing some strings.
+INPUT:
+    char * str1 = "two";
+    char * str2 = "three";
+    char * str3 = "four";
+    char * str6 = "four";
+    char * str4 = "one";
+    char * str5 = "seven";
+
+    SLInsert(newList, str1);
+    SLRemove(newList, str4);
+    SLInsert(newList, str1);
+    SLInsert(newList, str1);
+    SLInsert(newList, str2);
+    SLInsert(newList, str3);
+    SLRemove(newList, str3);
+    SLInsert(newList, str4);
+    SLRemove(newList, str4);
+    SLInsert(newList, str5);
+    SLInsert(newList, str6);
+    SLRemove(newList, str2);
+    SLInsert(newList, str4);
+    SLRemove(newList, str2);
+    SLInsert(newList, str2);
+    SLRemove(newList, str1);
+EXPECTED OUTPUT:
+three
+seven
+one
+four
+
+18
+12
+8
+7
+5
+1
+
+13
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+
+ACTUAL OUTPUT:
+three
+seven
+one
+four
+13
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+
+
+Then I inserted a bunch of integers
+INPUT:
+
+    int x = 5;
+    int y = 7;
+    int z = 12;
+    int a = 1;
+    int b = 8;
+    int c = 18;
+
+    SLInsert(intList, &x);
+    SLInsert(intList, &y);
+    SLInsert(intList, &z);
+    SLInsert(intList, &c);
+    SLInsert(intList, &a);
+    SLInsert(intList, &b);
+
+EXPECTED OUTPUT:
+
+18
+12
+8
+7
+5
+1
+
+ACTUAL OUTPUT:
+18
+12
+8
+7
+5
+1
+
+Then I inserted a bunch of items in a list and then removed them in between calling SLNext Item to see if the iterator gets to the right node without seg faulting.
+INPUT:
+
+    int d = 1;
+    int e = 2;
+    int f = 3;
+    int g = 4;
+    int h = 5;
+    int i = 6;
+    int j = 7;
+    int k = 8;
+    int l = 9;
+    int m = 10;
+    int n = 11;
+    int o = 12;
+    int p = 13;
+
+    SLInsert(finalList, &d);
+    SLInsert(finalList, &e);
+    SLInsert(finalList, &f);
+    SLInsert(finalList, &g);
+    SLInsert(finalList, &h);
+    SLInsert(finalList, &i);
+    SLInsert(finalList, &j);
+    SLInsert(finalList, &k);
+    SLInsert(finalList, &l);
+    SLInsert(finalList, &m);
+    SLInsert(finalList, &n);
+    SLInsert(finalList, &o);
+    SLInsert(finalList, &p);
+
+EXPECTED OUTPUT:
+13
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+
+ACTUAL OUTPUT:
+
+13
+10
+9
+8
+7
+6
+5
+4
+3
+2
+1
+
+
+
+
+
+
+
+
+
+

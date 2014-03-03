@@ -102,13 +102,13 @@ int main()
     SLRemove(newList, str4);
     SLInsert(newList, str5);
     SLInsert(newList, str6);
-    //SLRemove(newList, str2);
+    SLRemove(newList, str2);
     SLInsert(newList, str4);
     SLRemove(newList, str2);
     SLInsert(newList, str2);
     SLRemove(newList, str1);
 
-
+    //Inserting into the final list
     SLInsert(finalList, &d);
     SLInsert(finalList, &e);
     SLInsert(finalList, &f);
@@ -143,7 +143,7 @@ int main()
     printf("%d\n",*(int*)SLNextItem(SlInt));
     printf("%d\n",*(int*)SLNextItem(SlInt));
 
-    //go through final list and print stuff with iterator movement
+    //go through final list and print stuff with iterator movement after removal
     printf("\n%d\n",*(int*)SLNextItem(SlFinal));
     SLRemove(finalList, &o);
     SLRemove(finalList, &n);
@@ -168,10 +168,5 @@ int main()
     SLDestroy(intList);
     SLDestroy(finalList);
 
-
-    /*Node *ptr;
-    for(ptr = newList->head; ptr!=NULL; ptr=ptr->next){
-        printf("%s\n",ptr->data);
-    }*/
 
 }
